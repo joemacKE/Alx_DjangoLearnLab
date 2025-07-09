@@ -5,4 +5,6 @@ class Book(models.Model):
     author = models.CharField(max_length=100)
     publication_year = models.IntegerField(default=0000)
 
+    def __str__(self):
+        return self.title
 # Create your models here.
