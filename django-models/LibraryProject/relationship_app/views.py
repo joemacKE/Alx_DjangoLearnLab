@@ -14,8 +14,7 @@ class BookDetailView(DetailView):
     template_name = 'library/library_detail.html'
 
     def books_in_library(request, **kwargs):
-        book_list()
-        return render(request, 'library/library_detail.html', {})        
+        pass        
 
 
 # Create your views here.
