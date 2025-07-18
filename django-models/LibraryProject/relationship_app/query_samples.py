@@ -1,15 +1,30 @@
 from .models import Author, Book, Library, Librarian
 
-def all_books():
-    books = Book.objects.all()
-    return books.all()
+def book_by_authro(author_name):
+    try:
+        author = Author.objects.get(name=author_name)
+        return author_name.books.all()
+    except Author.DoesNotExist:
+        return []
 
-def librarian():
-    librarian = Library.objects.get(name='library_name')
-    return librarian.books.all()
+def all_books(library_name):
+    try:
+        library = Library.objects.get(name=library_name)
+        return library_name.books.all()
+    except Library.DoesNotExist:
+        return []
 
-def book_by_authro():
-    books_by_author = Book.objects.get(name='author')
+def get_librarian_for_library(library_name):
+    try:
+        library = Library.objects.get(name=library_name)
+        return library.librarian
+    except (Library.DoesNotExist, Librarian.DoesNotExist):
+        return None
+
+
+
+
+
 
 
 
