@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import ListView, TemplateView
-from django.views.generic.detail import DetailView
 from .models import Book, Library, Librarian, Author
+from django.views.generic.detail import DetailView
 
 
 def book_list(request):
