@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, TemplateView
 from .models import Library, Book, Librarian, Author
+from django.contrib.auth import login
+from django.contrib.auth.forms import UserCreationForm
 
 
 def book_list(request):
@@ -21,4 +23,5 @@ class BookDetailView(DetailView):
 
 # Create your views here.
 #LibraryProject/relationship_app/views.py 
-# doesn't contain: ["from django.views.generic.detail import DetailView"]
+# doesn't contain: ["from django.contrib.auth import login", 
+# "from django.contrib.auth.forms import UserCreationForm"]
