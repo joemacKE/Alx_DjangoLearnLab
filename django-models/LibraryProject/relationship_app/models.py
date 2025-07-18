@@ -3,6 +3,9 @@ from django.db import models
 class Author(models.Model):
     name = models.CharField(max_length=200)
 
+    def __str__(self):
+        return self.name
+
 class Book(models.Model):
     title = models.CharField(max_length=200)
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
@@ -16,3 +19,4 @@ class Librarian(models.Model):
     library = models.OneToOneField(Library, on_delete=models.CASCADE)
 
 # Create your models here.
+LibraryProject/relationship_app/models.py doesn't contain: ["return self.name"]
