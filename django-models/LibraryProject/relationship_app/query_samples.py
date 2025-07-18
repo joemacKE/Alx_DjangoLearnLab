@@ -1,5 +1,13 @@
 from .models import Author, Book, Library, Librarian
 
+
+def list_all_books(author):
+    try:
+        books = Book.objects.filter(name=author)
+        return author.books
+    except Author.DoesNotExist:
+        return []
+
 def book_by_authro(author_name):
     try:
         author = Author.objects.get(name=author_name)
