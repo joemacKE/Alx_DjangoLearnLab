@@ -13,12 +13,12 @@ class BookDetailView(DetailView):
     model = Library
     template_name = 'library/library_detail.html'
 
-    def books_in_library(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        book = self.get_object()
-        
+    def books_in_library(request, **kwargs):
+        book_list()
+        return render(request, 'library/library_detail.html', {})        
 
 
 # Create your views here.
 #LibraryProject/relationship_app/views.py 
-# doesn't contain: ["relationship_app/list_books.html"]
+# doesn't contain: ["relationship_app/library_detail.html", 
+# "from .models import Library"]
