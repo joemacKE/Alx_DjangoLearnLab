@@ -3,10 +3,13 @@ from .models import Author, Book, Library, Librarian
 
 def list_all_books(author):
     try:
-        books = Book.objects.filter(name=author)
+        books = Book.objects.filter(author=author)
         return author.books
     except Author.DoesNotExist:
         return []
+    
+    #LibraryProject/relationship_app/query_samples.py 
+    #doesn't contain: ["objects.filter(author=author)"]
 
 def book_by_authro(author_name):
     try:
