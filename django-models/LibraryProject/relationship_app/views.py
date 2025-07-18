@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView, TemplateView
+from django.views.generic import ListView, TemplateView
+from django.views.generic.detail import DetailView
 from .models import Book, Library, Librarian, Author
 
 
@@ -17,7 +18,10 @@ class BookDetailView(DetailView):
         context['books'] = self.object.books.all()
         return context
 
+class BookListView(ListView):
+    pass
+
 
 # Create your views here.
 #LibraryProject/relationship_app/views.py 
-# doesn't contain: ["relationship_app/library_detail.html", "from .models import Library"]
+# doesn't contain: ["from django.views.generic.detail import DetailView"]
