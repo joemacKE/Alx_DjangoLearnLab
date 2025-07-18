@@ -1,8 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.views.generic import ListView, DetailView, TemplateView
-from .models import Library
-from .models import Book
+from .models import Book, Library, Librarian, Author
 
 
 def book_list(request):
