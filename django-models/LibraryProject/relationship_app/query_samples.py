@@ -7,17 +7,16 @@ def list_all_books(author):
         return author.books
     except Author.DoesNotExist:
         return []
-
-def librarian_for_a_library(librarian):
-    try:
-        librarian = Library.objects.get(library=librarian)
-        return Library.librarian
-    except (Library.DoesNotExist, Librarian.DoesNotExist):
-        return None
     
     #LibraryProject/relationship_app/query_samples.py 
     # doesn't contain: ["Librarian.objects.get(library="]
 
+def book_by_authro(author_name):
+    try:
+        author = Author.objects.get(name=author_name)
+        return author_name.books.all()
+    except Author.DoesNotExist:
+        return []
 
 def all_books(library_name):
     try:
