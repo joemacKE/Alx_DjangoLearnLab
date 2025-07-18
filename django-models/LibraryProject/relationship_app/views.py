@@ -9,12 +9,12 @@ def book_list(request):
     context = {'book_list': books}
     return render(request, "books/list_books.html", context)
 
-class BookDetailView(DetailView):
-    model = Library
-    template_name = 'library/library_detail.html'
+#class BookDetailView(DetailView):
+  #  model = Library
+   # template_name = 'library/library_detail.html'
 
-    def books_in_library(request, **kwargs):
-        pass        
+   # def books_in_library(request, **kwargs):
+    #    pass        
 
 
 # Create your views here.
