@@ -1,8 +1,6 @@
 from django.shortcuts import render
-from django.views.generic import ListView, TemplateView
-from .models import Library
-from .models import Book, Librarian, Author
-from django.views.generic.detail import DetailView
+from django.views.generic import ListView, DetailView, TemplateView
+from .models import Book, Library, Librarian, Author
 
 
 def book_list(request):
@@ -19,8 +17,6 @@ class BookDetailView(DetailView):
         context['books'] = self.object.books.all()
         return context
 
-class BookListView(ListView):
-    pass
 
 
 # Create your views here.
