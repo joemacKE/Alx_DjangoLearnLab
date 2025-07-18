@@ -1,10 +1,17 @@
 from .models import Author, Book, Library, Librarian
 
-books = Book.objects.all()
+def all_books():
+    books = Book.objects.all()
+    return books.all()
 
-books = Book.objects.prefetch_related(author='name')
+def librarian():
+    librarian = Library.objects.get(name='library_name')
+    return librarian.books.all()
 
-librarian = Librarian.objects.get(name='library_name')
+def book_by_authro():
+    books_by_author = Book.objects.get(name='author')
+
+
 
 
 
