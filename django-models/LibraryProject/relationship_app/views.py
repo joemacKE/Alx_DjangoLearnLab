@@ -4,9 +4,9 @@ from django.views.generic import ListView, DetailView, TemplateView
 from .models import Book, Library, Librarian, Author
 
 
-def all_books(request):
+def book_list(request):
     books = Book.objects.all()
-    context = {'list_books': books}
+    context = {'book_list': books}
     return render(request, "books/list_books.html", context)
 
 class BookDetailView(DetailView):
