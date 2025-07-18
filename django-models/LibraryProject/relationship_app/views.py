@@ -6,8 +6,8 @@ from .models import Book, Library, Librarian, Author
 
 def all_books(request):
     books = Book.objects.all()
-    context = {'books_list': books}
-    return render(request, "books/book_list.html", context)
+    context = {'list_books': books}
+    return render(request, "books/list_books.html", context)
 
 class BookDetailView(DetailView):
     model = Library
@@ -20,3 +20,5 @@ class BookDetailView(DetailView):
 
 
 # Create your views here.
+#LibraryProject/relationship_app/views.py 
+# doesn't contain: ["relationship_app/list_books.html"]
