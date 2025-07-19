@@ -55,7 +55,7 @@ def member_view(request):
 
 
 @permission_required
-def can_add_book(request):
+def add_book(request):
     pass
 
 @permission_required
