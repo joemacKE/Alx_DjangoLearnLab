@@ -66,9 +66,6 @@ def add_book(request):
         form = BookForm()
     return render(request, 'relationship_app/add_book.html', {'form': form})
 
-
-
-
 @permission_required('relationship_app.cad_edit_book', raise_exception=True)
 def edit_book(request, pk):
     book = get_object_or_404(Book, pk=pk)
@@ -79,7 +76,7 @@ def edit_book(request, pk):
         return redirect('book-list')
     else:
         form = BookForm()
-    return render(request, 'relationship_app/book_list', {'form':form})
+    return render(request, 'relationship_app/edit_book.html', {'form':form})
 
 @permission_required('relationship_app.can_delete_book', raise_exception=True)
 def delete_book(request, pk):
