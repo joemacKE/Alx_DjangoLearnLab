@@ -44,39 +44,6 @@ def member_view(request):
 
 
 
-@user_passes_test
-@login_required
-def admin_view(request):
-   if request.userprofile.role != "Admin":
-       return HttpResponseForbidden("You do not have clearence to view this page")
-   return render(request, 'relationship_app/admin_view.html')
-@user_passes_test
-@login_required
-def librarian_view(request):
-    if request.method == "POST":
-        form = LibrarianProfileForm(request.POST)
-        if form.is_valid():
-            librarian = form.save(commit=False)
-            librarian.user = request.user
-            form.save()
-            return redirect('librarian-detail', pk=librarian.pk )
-    else:
-        form = LibrarianProfileForm()
-    return render(request, 'relationship_app/librarian_profile.html', {'form':form})
-
-@user_passes_test
-@login_required
-def member_view(request):
-    if request.method == "POST":
-        form = MemberProfileForm(request.POST)
-        if form.is_valid():
-            member = form.save(commit=False)
-            member.user = request.user
-            form.save()
-            return redirect('member-detail', pk=member.pk)
-    else:
-        form = MemberProfileForm()
-    return render(request, 'relationship_app/member.html', {'form':form})
 
 def book_list(request):
     books = Book.objects.all()
