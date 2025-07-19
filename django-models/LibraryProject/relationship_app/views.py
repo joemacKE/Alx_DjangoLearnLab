@@ -93,9 +93,9 @@ def delete_book(request, pk):
     return render(request, 'relationship_app/delete_book.html', {'form':form})
 
 
-def book_list(request):
+def list_book(request):
     books = Book.objects.all()
-    context = {'list_books': books}
+    context = {'list_book': books}
     return render(request, 'relationship_app/list_books.html', context)
 
 class BookDetailView(DetailView):
