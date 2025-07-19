@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic import ListView, DetailView, TemplateView, CreateView
+from django.views.generic import ListView, TemplateView, CreateView
+from django.views.generic.detail import DetailView
 from .models import Library
 from .models import Book
 from django.contrib.auth import login
