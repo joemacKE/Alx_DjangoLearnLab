@@ -13,8 +13,9 @@ urlpatterns = [
     path('librarian-view/', librarian_view, Name='librarian-view'),
     path('member-view/', member_view, name='member-view'),
     path('books/', book_list, name='book-list'),
-    path('books/add/', add_book, Name='add_book'),
-    path('books/<int:pk>/edit/', edit_book, name='edit-book'),
+    path('books/add-book/', add_book, Name='add_book'),
+    path('books/<int:pk>/edit-book/', edit_book, name='edit-book'),
     path('books/<int:pk>/delete', delete_book, name='delete-book')
 ]
 
+#LibraryProject/relationship_app/urls.py doesn't contain: ["add_book/", "edit_book/"]
