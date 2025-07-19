@@ -3,6 +3,7 @@ from django import forms
 
 
 
+
 class LibrarianProfileForm(forms.ModelForm):
     class Meta:
         model = Librarian
@@ -12,4 +13,10 @@ class MemberProfileForm(forms.ModelForm):
     class Meta:
         model = Author
         fields = ['name']
+
+
+class BookForm(forms.ModelForm):
+    class Meta:
+        model = Book
+        fields = ['title', 'author']
     
