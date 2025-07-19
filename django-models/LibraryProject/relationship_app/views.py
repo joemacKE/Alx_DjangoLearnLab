@@ -4,8 +4,10 @@ from .models import Book, Library
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
-from django.contrib.auth.decorators import login_required, user_passes_test, permission_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from .forms import LibrarianProfileForm, MemberProfileForm
+from django.contrib.auth.decorators import permission_required
+#LibraryProject/relationship_app/views.py doesn't contain: [""]
 
 def is_admin(user):
     return hasattr(user, 'userprofile') and user.userprofile.role == 'admin'
