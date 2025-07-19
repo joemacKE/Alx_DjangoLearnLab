@@ -1,19 +1,40 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView, TemplateView, CreateView
 from .models import Book, Library
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required, user_passes_test
+from .forms import LibrarianProfileForm
 
 def is_admin(user):
     return hasattr(user, 'userprofile') and user.userprofile.role == 'admin'
+
+#checks if user is librarian
+def is_librarian(user):
+    return hasattr(user, 'userprofile') and user.userprofile.role == 'librarian'
 
 # --- Views ---
 @login_required
 @user_passes_test(is_admin)
 def admin_view(request):
     return render(request, 'relationship_app/admin_view.html')
+
+#librarian view
+@login_required
+@user_passes_test(is_librarian)
+def librarian_view(request):
+    if request.method == "POST":
+        form = LibrarianProfileForm(request.POST)
+        if form.is_valid():
+            librarian = form.save(commit=False)
+            librarian.name = request.user.username
+            form.save()
+            return redirect('librarian-view')
+    
+    else:
+        return LibrarianProfileForm()
+    return render(request, 'relationship_app/librarian_view.html', {'form':form})
 
 
 
