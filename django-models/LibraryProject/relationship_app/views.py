@@ -98,6 +98,10 @@ def list_book(request):
     context = {'list_book': books}
     return render(request, 'relationship_app/list_books.html', context)
 
+class BookListView(ListView):
+    model = Library
+    template_name = 'relationship_app/list_book.html'
+
 class BookDetailView(DetailView):
     model = Library
     template_name = 'relationship_app/library_detail.html'
