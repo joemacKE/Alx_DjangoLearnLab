@@ -5,7 +5,7 @@ from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required, user_passes_test
-from .forms import LibrarianProfileForm, MemberProfileForm
+from .forms import LibrarianProfileForm, MemberProfileForm, BookForm
 from django.contrib.auth.decorators import permission_required
 
 
@@ -54,9 +54,20 @@ def member_view(request):
     return render(request, 'relationship_app/member_view.html', {'form':form})
 
 
-@permission_required
+@permission_required('relationship_app.can_add_book', raise_exception=True)
 def add_book(request):
-    pass
+    if request.method == "POST":
+        form = BookForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return ('book-list')
+    
+    else:
+        form = BookForm()
+    return render(request, 'relationship_app/add_book.html', {'form': form})
+
+
+
 
 @permission_required
 def edit_book(request):
