@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView, DetailView, TemplateView, CreateView
 from .models import Book, Library
 from django.contrib.auth import login
@@ -60,7 +60,7 @@ def add_book(request):
         form = BookForm(request.POST)
         if form.is_valid():
             form.save()
-            return ('book-list')
+            return redirect('book-list')
     
     else:
         form = BookForm()
@@ -69,9 +69,17 @@ def add_book(request):
 
 
 
-@permission_required
-def edit_book(request):
-    pass
+@permission_required('relationship_app.cad_edit_book', raise_exception=True)
+def edit_book(request, pk):
+    book = get_object_or_404(Book, pk=pk)
+    if request.method == "POST":
+        form = BookForm(request.POST, instance=book)
+        if form.is_valid():
+            form.save()
+        return redirect('book-list')
+    else:
+        form = BookForm()
+    return render(request, 'relationship_app/book_list', {'form':form})
 
 @permission_required
 def delete_book(request):
