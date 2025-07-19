@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.http import HttpResponseForbidden, HttpResponse
 from django.views.generic import ListView, DetailView, TemplateView, CreateView
 from .models import Library, Book, Librarian, Author
 from django.contrib.auth import login
@@ -12,17 +13,9 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 @user_passes_test
 @login_required
 def admin_view(request):
-    if request.method == "POST":
-        form = AdminProfileForm(request.POST)
-        if form.is_valid():
-            admin = form.save(commit=False)
-            admin.user = request.user
-            form.save()
-            return redirect('admin')
-    else:
-        form = AdminProfileForm()
-    return render(request, 'relationship_app/admin.html', {'form':form})
-
+   if request.userprofile.role != "Admin":
+       return HttpResponseForbidden("You do not have clearence to view this page")
+   return render(request, 'relationship_app/admin_view.html')
 @user_passes_test
 @login_required
 def librarian_view(request):

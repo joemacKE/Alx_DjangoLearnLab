@@ -1,13 +1,14 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-ROLE_CHOICES = [
-    ('admin', 'Admin'),
-    ('librarian', 'Librarian'),
-    ('member', 'Member')
-]
+
 
 class UserProfile(models.Model):
+    ROLE_CHOICES = [
+    ('admin', 'Admin'),
+    ('librarian', 'Librarian'),
+    ('member', 'Member'),
+]
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     role = models.CharField(max_length=120, choices=ROLE_CHOICES)
 
