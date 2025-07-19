@@ -4,7 +4,7 @@ from .models import Book, Library
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.decorators import login_required, user_passes_test, permission_required
 from .forms import LibrarianProfileForm, MemberProfileForm
 
 def is_admin(user):
@@ -52,6 +52,10 @@ def member_view(request):
     return render(request, 'relationship_app/member_view.html', {'form':form})
 
 
+@permission_required
+def can_add_book(request):
+    pass
+
 
 def book_list(request):
     books = Book.objects.all()
@@ -73,7 +77,13 @@ class SignUpView(CreateView):
     template_name = 'relationship_app/login'
 
 
-
+#LibraryProject/relationship_app/views.py 
+# doesn't contain: 
+# ["from django.contrib.auth.decorators 
+# import permission_required", 
+# "relationship_app.can_add_book", 
+# "relationship_app.can_change_book", 
+# "relationship_app.can_delete_book"]
 
 
 
