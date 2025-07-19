@@ -7,7 +7,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required, user_passes_test
 from .forms import LibrarianProfileForm, MemberProfileForm
 from django.contrib.auth.decorators import permission_required
-#LibraryProject/relationship_app/views.py doesn't contain: [""]
+
 
 def is_admin(user):
     return hasattr(user, 'userprofile') and user.userprofile.role == 'admin'
@@ -56,6 +56,14 @@ def member_view(request):
 
 @permission_required
 def can_add_book(request):
+    pass
+
+@permission_required
+def edit_book(request):
+    pass
+
+@permission_required
+def delete_book(request):
     pass
 
 
