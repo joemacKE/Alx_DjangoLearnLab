@@ -5,7 +5,7 @@ from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required, user_passes_test
-from .forms import LibrarianProfileForm
+from .forms import LibrarianProfileForm, MemberProfileForm
 
 def is_admin(user):
     return hasattr(user, 'userprofile') and user.userprofile.role == 'admin'
@@ -36,6 +36,20 @@ def librarian_view(request):
         return LibrarianProfileForm()
     return render(request, 'relationship_app/librarian_view.html', {'form':form})
 
+#member view
+@login_required
+@user_passes_test
+def member_view(request):
+    if request.method == "POST":
+        form = MemberProfileForm(request.POST)
+        if form.is_valid():
+            member = form.save(commit=False)
+            member.name = request.user.username
+            form.save()
+            return redirect('member-view')
+    else:
+        return MemberProfileForm()
+    return render(request, 'relationship_app/member_view.html', {'form':form})
 
 
 
