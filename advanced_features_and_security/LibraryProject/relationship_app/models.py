@@ -1,6 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User, AbstractBaseUser, AbstractUser
-from django.contrib.auth.base_user import BaseUserManager
+from django.contrib.auth.models import User
 
 
 
@@ -16,14 +15,8 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.role}"
-#creating a custom user model that inherits from AbstractUser
-class CustomUser(AbstractUser):
-    date_of_birth = models.DateTimeField()
-    profile_photo = models.ImageField(upload_to='profile/')
 
-#creating a User manager for handling Custom User Model
-class UserManager(BaseUserManager):
-    pass
+
 
 class Author(models.Model):
     name = models.CharField(max_length=200)
