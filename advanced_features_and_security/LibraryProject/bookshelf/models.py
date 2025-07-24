@@ -7,16 +7,16 @@ class CustomUser(AbstractUser):
     profile_photo = models.ImageField(upload_to='profile_pic/')
 
 class CustomUserManager(BaseUserManager):
-    """This class handles the creation of users"""
+    pass
 
 
     #logic for creating a user
-    def create_user(self, email, password, date_of_birth, profile_photo, **extra_fields):
+    def create_user(self, email, password=None, date_of_birth=None, profile_photo=None, **extra_fields):
         if not email:
             raise ValueError("User must have a valid email address")
+        email = self.normalize_email(email),
         user = self.model(
-            email = self.normalize_email(email),
-            passsword = password,
+            email = email,
             date_of_birth = date_of_birth,
             profile_photo = profile_photo
         )
@@ -26,12 +26,12 @@ class CustomUserManager(BaseUserManager):
 
 
     #creating a super user
-    def create_superuser(self, email, password, date_of_birth, profile_photo, **extra_fields):
+    def create_superuser(self, email, password=None, date_of_birth=None, profile_photo=None, **extra_fields):
         if not email:
             raise ValueError("User must have a valid email address")
         user = self.model(
             email = self.normalize_email(email, password=password),
-            dte_of_birth = date_of_birth,
+            date_of_birth = date_of_birth,
             profile_photo = profile_photo,
         )
         user.is_admin= True
