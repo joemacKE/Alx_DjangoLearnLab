@@ -9,5 +9,5 @@ class BookAdmin(admin.ModelAdmin):
 
 # Register your models here.
 admin.site.register(CustomUser, CustomUserManager)
-# - LibraryProject/bookshelf/admin.py doesn't contain: 
-# ["admin.site.register(CustomUser, CustomUserAdmin)"]
+#  - LibraryProject/LibraryProject/settings.py 
+# doesn't contain: ["bookshelf.CustomUser"]
