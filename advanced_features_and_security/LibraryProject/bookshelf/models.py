@@ -3,7 +3,7 @@ from django.contrib.auth.models import User, AbstractUser
 from django.contrib.auth.base_user import BaseUserManager
 
 class CustomUser(AbstractUser):
-    date_of_bith = models.DateTimeField()
+    date_of_birth = models.DateField()
     profile_photo = models.ImageField(upload_to='profile_pic/')
 
 class CustomUserManager(BaseUserManager):
