@@ -120,4 +120,17 @@ class SignUpView(CreateView):
     template_name = 'relationship_app/login'
 
 
+#LibraryProject/relationship_app/views.py 
+# doesn't contain: 
+# ["from django.contrib.auth.decorators 
+# import permission_required", 
+# "relationship_app.can_add_book", 
+# "relationship_app.can_change_book", 
+# "relationship_app.can_delete_book"]
+
+
+
+# Create your views here
+# LibraryProject/relationship_app/views.py 
+# doesn't contain: ["UserCreationForm()", "relationship_app/register.html"].
 
