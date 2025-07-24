@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Book
+from .models import Book, CustomUser, CustomUserManager
 
 admin.site.register(Book)
 class BookAdmin(admin.ModelAdmin):
@@ -8,3 +8,6 @@ class BookAdmin(admin.ModelAdmin):
     search_fields = ('title', 'author')
 
 # Register your models here.
+admin.site.register(CustomUser, CustomUserManager)
+# - LibraryProject/bookshelf/admin.py doesn't contain: 
+# ["admin.site.register(CustomUser, CustomUserAdmin)"]
