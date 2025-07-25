@@ -13,12 +13,20 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-(*!iqkr(vd&nm1xwr2yga#6wv0b%iww&v)*z_qk$=2icy-(-1x'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
+SECURE_BROWSER_XSS_FILTER = True
+X_FRAME_OPTIONS = 'DENY'
+SECURE_CONTENT_TYPE_NOSNIFF = True
+CSRF_COOKIE_SECURE = True
 
 ALLOWED_HOSTS = []
 
 
 # Application definition
+#LibraryProject/LibraryProject/settings.py 
+# doesn't contain: ["SECURE_BROWSER_XSS_FILTER", 
+# "X_FRAME_OPTIONS", "SECURE_CONTENT_TYPE_NOSNIFF", 
+# "CSRF_COOKIE_SECURE", 
 
 INSTALLED_APPS = [
     'django.contrib.admin',
