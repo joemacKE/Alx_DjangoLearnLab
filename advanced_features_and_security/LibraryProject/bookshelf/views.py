@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import permission_required
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.models import Group, Permission
 
+# Permission required: can_create = bookshelf | book | Can create
 @permission_required('bookshelf.permissions', raise_exception=True)
 def can_view(request):
     if request.method == "POST":
