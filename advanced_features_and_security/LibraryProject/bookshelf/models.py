@@ -1,15 +1,16 @@
 from django.db import models
 from django.contrib.auth.models import User, AbstractUser
 from django.contrib.auth.base_user import BaseUserManager
+from django.contrib.auth.decorators import permission_required
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.auth.models import Group, Permission
+from django.core.management.base import BaseCommand
 
 class CustomUser(AbstractUser):
     date_of_birth = models.DateField()
     profile_photo = models.ImageField(upload_to='profile_pic/')
 
 class CustomUserManager(BaseUserManager):
-    pass
-
-
     #logic for creating a user
     def create_user(self, email, password=None, date_of_birth=None, profile_photo=None, **extra_fields):
         if not email:
@@ -53,4 +54,30 @@ class Book(models.Model):
             ('can_edit', 'Can edit'),
             ('can_delete', 'Can delete')
         ]
+
+class Command(BaseCommand):
+    help = 'Create default groups and assign permissionss'
+
+    def handle(self, *args, **kwargs):
+        #editor group
+        editor_group, _ = Group.objects.get_or_create(name="Editor")
+        permissions = Permission.objects.filter(content_type=ContentType.objects.get_for_model(Book), codename_in=[
+            'can_edit', 'can_create'
+
+        ])
+        editor_group.permissions.set(permissions)
+
+        #viewers group
+        viewer_group, _ = Group.objects.get_or_create(name='Viewer')
+        permissions = Permission.objects.filter(content_type=ContentType.objects.get_for_model(Book), codename_in=[
+            'can_view'
+        ])
+        viewer_group.permissions.set(permissions)
+
+        #admin view group
+        admin_group, _ = Group.objects.get_or_create(name='Admin')
+        permissions = Permission.objects.filter(Content_type=ContentType.objects.get_for_model(Book), codename_in=[
+            'can_add', 'can_view', 'can_create', 'can_delete'
+        ])
+        admin_group.permissions.set(permissions)
 # Create your models here.
