@@ -21,11 +21,16 @@ CSRF_COOKIE_SECURE = True
 SESSION_COOKOER_SECURE =True
 
 ALLOWED_HOSTS = []
+SECURE_SSL_REDIRECT = True
+SECURE_HSTS_SECONDS = 31536000
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
 
 
 # Application definition
-#LibraryProject/LibraryProject/settings.py 
-# doesn't contain: ["SESSION_COOKIE_SECURE"]
+#LibraryProject/LibraryProject/settings.py
+#  doesn't contain: 
+# ["SECURE_SSL_REDIRECT"]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
