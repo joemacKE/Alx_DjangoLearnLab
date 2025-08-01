@@ -19,5 +19,6 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('books/', include('urls.py'))
+    path('book/', include('api.urls'))
 ]
+#api_project/urls.py doesn't contain: ["api.urls"]
