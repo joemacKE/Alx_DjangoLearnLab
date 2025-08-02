@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     "rest_framework.authtoken",
 ]
-#api_project/settings.py doesn't contain: []
+#api_project/settings.py doesn't contain: ["rest_framework.authentication.TokenAuthentication"]
 
 
 MIDDLEWARE = [
@@ -57,7 +57,7 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
-    ]
+    ],
 }
 
 ROOT_URLCONF = 'api_project.urls'
