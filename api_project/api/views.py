@@ -6,9 +6,9 @@ from .models import Book
 from rest_framework import viewsets
 
 
-class BookList(generics.ListAPIView):
-    query_set = Book.objects.all()
-    serializer_class = BookSerializer
+# class BookList(generics.ListAPIView):
+#     query_set = Book.objects.all()
+#     serializer_class = BookSerializer
 
 class BookViewSet(viewsets.ModelViewSet):
     def list(self, request):
