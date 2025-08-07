@@ -8,8 +8,14 @@ class AuthorSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class BookSerializer(serializers.Serializer):
+class BookSerializer(serializers.ModelSerializer):
     title = serializers.CharField(max_length=255)
     publication_year = serializers.IntegerField()
 
+    def get_publication_year(self):
+        ...
 
+
+
+#api/serializers.py doesn't contain: 
+# ["class BookSerializer(serializers.ModelSerializer)", "serializers.ValidationError"]
