@@ -7,9 +7,8 @@ from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 
 
-# class BookList(generics.ListAPIView):
-#     query_set = Book.objects.all()
-#     serializer_class = BookSerializer
+#api_project/settings.py doesn't contain: 
+# ["rest_framework.permissions.IsAuthenticated"]
 
 class BookViewSet(viewsets.ModelViewSet):
     def list(self, request):
