@@ -1,11 +1,11 @@
 from rest_framework import generics
 from api.serializers import BookSerializer, AuthorSerializer
-from api.models import Book, Author
+from api.models import Book
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 
 class BookListView(generics.ListAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-
 
 class BookDetailView(generics.RetrieveAPIView):
     queryset = Book.objects.all()
@@ -23,10 +23,6 @@ class BookDeleteView(generics.DestroyAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
 
-
-
-
-
-
-# api/views.py doesn't contain:
-#  ["DetailView", "CreateView", "UpdateView", "DeleteView"]
+# api/views.py doesn't 
+# contain: ["from rest_framework.permissions import 
+# IsAuthenticatedOrReadOnly, IsAuthenticated", "IsAuthenticated"]
