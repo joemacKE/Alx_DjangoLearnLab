@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'api',
     'rest_framework',
+    'django_filters',
     
 ]
 
@@ -70,6 +71,9 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'advanced_api_project.wsgi.application'
+REST_FRAMEWORK = {
+    "DEFAULT_FILTER_BACKEND": ('django_filters.rest_framework.DjangoFilterBackend', )
+}
 
 
 # Database
