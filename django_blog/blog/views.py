@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from . models import Post
+from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib import messages
 from django.views.generic import (
     ListView,
@@ -40,34 +42,46 @@ def profile(request):
 
 class PostListView(ListView):
     model = Post
-    paginate_by = 10
     template_name = 'blog/home.html'
+    context_object_name = 'posts'
+    ordering = ['-published_date']
+    paginate_by = 10
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['posts'] = Post.objects.all()
-        context['users'] = User.objects.all()
-        return context
 class PostDetailView(DetailView):
     model = Post
-    paginate_by = 10
     template_name = 'blog/post_detail.html'
+    context_object = 'post'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['post'] = Post.objects.get(pk=self.kwargs['pk'])
-        return context
+
 class PostCreateView(CreateView):
+
     model = Post
-    fields = ['title', 'content', 'publication_date', 'author']
+    fields = ['title', 'content']
     template_name = 'blog/post_form.html'
     reverse_lazy = 'blog_home'
 
+    def form_valid(self, form):
+        form.instance.author = self.request.usern #this line sets the author of the post
+        return super().form_valid(form)
+
 class PostUpdateView(UpdateView):
     model = Post
+    fields = ['title', 'content']
+    template_name = 'blog/post_form.html'
 
-class PostDeleteView(DeleteView):
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+    
+    def test(self, user):
+        post = self.get_object()
+        return self.request.user == post.author
+
+class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Post
+    success_url = '/'
+    template_name = 'blog/post_confirm_delete.html'
+
 
 #blog/views.py doesn't contain: ["DetailView", "CreateView", 
 
