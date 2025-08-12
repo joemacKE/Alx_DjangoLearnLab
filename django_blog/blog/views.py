@@ -57,8 +57,11 @@ class PostDetailView(DetailView):
         context['form'] = CommentForm()
         context['comments'] = self.objects.comments.all()
         return context
-
-    @login_required
+class PostCommentView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+    model = Comment
+    form_class = CommentForm
+    template_name = 'blog/post_comment_form.html'
+    
     def add_comment(request, pk):
         post = get_object_or_404(Post, pk=pk)
         if request.method == "POST":
@@ -80,7 +83,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
     reverse_lazy = 'blog_home'
 
     def form_valid(self, form):
-        form.instance.author = self.request.usern #this line sets the author of the post
+        form.instance.author = self.request.user #this line sets the author of the post
         return super().form_valid(form)
 
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
@@ -105,4 +108,5 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 
 
-# Create your views here.
+# blog/views.py doesn't contain: 
+# ["CommentCreateView", "CommentUpdateView", "CommentDeleteView"]
