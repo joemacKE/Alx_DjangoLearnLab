@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from . models import Post
+
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -12,7 +13,7 @@ from django.views.generic import (
     DeleteView)
 from django.contrib.auth.models import User
 
-from .forms import UserRegisterForm, ProfileUpdateForm, UserUpdateForm
+from .forms import UserRegisterForm, ProfileUpdateForm, UserUpdateForm, PostForm
 
 def register(request):
     if request.method == "POST":
@@ -53,10 +54,10 @@ class PostDetailView(DetailView):
     context_object = 'post'
 
 
-class PostCreateView(CreateView):
+class PostCreateView(LoginRequiredMixin, CreateView):
 
     model = Post
-    fields = ['title', 'content']
+    form_class = PostForm
     template_name = 'blog/post_form.html'
     reverse_lazy = 'blog_home'
 
@@ -64,9 +65,9 @@ class PostCreateView(CreateView):
         form.instance.author = self.request.usern #this line sets the author of the post
         return super().form_valid(form)
 
-class PostUpdateView(UpdateView):
+class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
-    fields = ['title', 'content']
+    form_class = PostForm
     template_name = 'blog/post_form.html'
 
     def form_valid(self, form):
