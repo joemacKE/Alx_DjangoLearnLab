@@ -1,6 +1,5 @@
-from django.shortcuts import render, redirect
-from . models import Post
-
+from django.shortcuts import render, redirect, get_object_or_404
+from . models import Post, Comment
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -13,7 +12,7 @@ from django.views.generic import (
     DeleteView)
 from django.contrib.auth.models import User
 
-from .forms import UserRegisterForm, ProfileUpdateForm, UserUpdateForm, PostForm
+from .forms import UserRegisterForm, ProfileUpdateForm, UserUpdateForm, PostForm, CommentForm
 
 def register(request):
     if request.method == "POST":
@@ -51,7 +50,26 @@ class PostListView(ListView):
 class PostDetailView(DetailView):
     model = Post
     template_name = 'blog/post_detail.html'
-    context_object = 'post'
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = CommentForm()
+        context['comments'] = self.objects.comments.all()
+        return context
+
+    @login_required
+    def add_comment(request, pk):
+        post = get_object_or_404(Post, pk=pk)
+        if request.method == "POST":
+            form = CommentForm(request.POST)
+            if form.is_valid():
+                comment = form.save(comment=False)
+                comment.post = post
+                comment.author = request.user
+                comment.save()
+                messages.success(request, "Your comment has been added succesfully")
+        return redirect('post-detail', pk=pk)
 
 
 class PostCreateView(LoginRequiredMixin, CreateView):
@@ -84,7 +102,7 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     template_name = 'blog/post_confirm_delete.html'
 
 
-#blog/views.py doesn't contain: ["DetailView", "CreateView", 
+
 
 
 # Create your views here.
