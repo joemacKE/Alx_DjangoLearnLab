@@ -87,7 +87,10 @@ class CommentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         post = self.get_object()
         return self.request.user == post.author
     
-
+class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Comment
+    success_url = '/'
+    template_name = 'blog/post_comment_form.html'
 class PostCreateView(LoginRequiredMixin, CreateView):
 
     model = Post

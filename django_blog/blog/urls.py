@@ -1,7 +1,7 @@
 from django.contrib.auth import views as auth_views
 from django.urls import path
 from . import views
-from blog.views import PostListView, CommentCreateView, CommentUpdateView, PostDetailView, PostCreateView, PostUpdateView, PostDeleteView
+from blog.views import PostListView, CommentCreateView, CommentDeleteView, CommentUpdateView, PostDetailView, PostCreateView, PostUpdateView, PostDeleteView
 
 urlpatterns = [
     path('login/', auth_views.LoginView.as_view(), name = 'login'),
@@ -15,11 +15,8 @@ urlpatterns = [
     path('post/new/', PostCreateView.as_view(), name = 'post-create'),
     path('comment<int:pk>/update/', CommentUpdateView.as_view(), name = 'update-comment'),
     path('post/<int:pk>/comments/new/', CommentCreateView.as_view(), name = "post-comment"),
-    path('comment/<int:pk>/delete/', CommentCreateView.as_view(), name='delete-comment')
+    path('comment/<int:pk>/delete/', CommentDeleteView.as_view(), name='delete-comment')
 
 ]
 
 
-#blog/urls.py doesn't contain: 
-# ["comment/<int:pk>/update/", 
-# "post/<int:pk>/comments/new/", "comment/<int:pk>/delete/"]
