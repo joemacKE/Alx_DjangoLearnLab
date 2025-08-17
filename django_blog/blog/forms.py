@@ -21,6 +21,18 @@ class PostForm(forms.ModelForm):
             'tags': TagWidget(attrs={'class':'form-control', 'placeholder':'Add tags separated by comas'}),
         }
        
+class PostUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ['title', 'content', 'tags']
+        widgets = {
+            'title':forms.TextInput(attrs={'class': 'form-control'}),
+            'content':forms.Textarea(attrs={'class':'form-control'}),
+            'tags': TagWidget(attrs={'class':'form-control', 'placeholder':'Add tags separated by comas'}),
+        }
+
+
+
 
 class UserUpdateForm(forms.ModelForm):
     email = forms.EmailField()
