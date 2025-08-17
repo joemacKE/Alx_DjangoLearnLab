@@ -57,7 +57,7 @@ class PostDetailView(DetailView):
         context['form'] = CommentForm()
         context['comments'] = self.objects.comments.all()
         return context
-class PostCommentView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+class CommentCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Comment
     form_class = CommentForm
     template_name = 'blog/post_comment_form.html'
@@ -120,5 +120,5 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 
 
-
+#blog/views.py doesn't contain: ["CommentCreateView", "CommentDeleteView"]
 
