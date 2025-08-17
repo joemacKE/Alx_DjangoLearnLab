@@ -12,7 +12,7 @@ class Post(models.Model):
     content = models.TextField()
     published_date = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    tagging = models.ManyToManyField(Tag, on_delete = models.CASCADE)
+    taggit = models.ManyToManyField(Tag, on_delete = models.CASCADE)
 
     def __str__(self):
         return f"{self.title} by {self.author} published {self.published_date}"
@@ -35,7 +35,7 @@ class Comment(models.Model):
     def __str__(self):
         return f"Comment by {self.author}"
 
-
+#django_blog/settings.py doesn't contain: ["taggit"]
 
 
 
