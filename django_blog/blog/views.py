@@ -67,13 +67,26 @@ class PostCommentView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         if request.method == "POST":
             form = CommentForm(request.POST)
             if form.is_valid():
-                comment = form.save(comment=False)
+                comment = form.save(commit=False)
                 comment.post = post
                 comment.author = request.user
                 comment.save()
                 messages.success(request, "Your comment has been added succesfully")
         return redirect('post-detail', pk=pk)
 
+class CommentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Comment
+    form_class = CommentForm
+    template_name = 'blog/update_comment_form.html'
+    
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+    
+    def test(self, user):
+        post = self.get_object()
+        return self.request.user == post.author
+    
 
 class PostCreateView(LoginRequiredMixin, CreateView):
 
