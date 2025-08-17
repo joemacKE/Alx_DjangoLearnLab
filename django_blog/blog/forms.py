@@ -18,7 +18,7 @@ class PostForm(forms.ModelForm):
         widgets = {
             'title':forms.TextInput(attrs={'class': 'form-control'}),
             'content':forms.Textarea(attrs={'class':'form-control'}),
-            'tags': TagWidget(attrs={'class':'form-control', 'placeholder':'Add tags separated by comas'}),
+            'tags': TagWidget(),
         }
        
 class PostUpdateForm(forms.ModelForm):
@@ -28,7 +28,7 @@ class PostUpdateForm(forms.ModelForm):
         widgets = {
             'title':forms.TextInput(attrs={'class': 'form-control'}),
             'content':forms.Textarea(attrs={'class':'form-control'}),
-            'tags': TagWidget(attrs={'class':'form-control', 'placeholder':'Add tags separated by comas'}),
+            'tags': TagWidget(),
         }
 
 
