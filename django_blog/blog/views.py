@@ -59,8 +59,26 @@ class PostListView(ListView):
                 Q(tags__name__icontains=query)
             ).distinct()
         return queryset
-#blog/views.py doesn't contain: ["Post.objects.filter"]
 
+class PostByTagListView(ListView):
+    model = Post
+    template_name = "blog/posts_by_tag.html"   # create this template
+    context_object_name = "posts"
+    paginate_by = 10
+    
+    def get_query(self):
+        queryset = super().get_queryset()
+        query = self.request.GET.get('q')
+
+        if query:
+            queryset = Post.objects.filter(
+                Q(title__icontains=query) |
+                Q(content__icontains=query) |
+                Q(tags__name__icontains=query)
+            ).distinct()
+        return queryset
+
+    
 class PostDetailView(DetailView):
     model = Post
     template_name = 'blog/post_detail.html'
