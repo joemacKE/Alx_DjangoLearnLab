@@ -1,6 +1,7 @@
 from django.test import TestCase
 from django.contrib.auth.models import User
 from django.urls import reverse
+from .models import Post
 
 class AuthTests(TestCase):
     def setUp(self):
@@ -27,3 +28,21 @@ class AuthTests(TestCase):
         })
         self.assertRedirects(response, reverse('login'))
         self.assertTrue(User.objects.filter(username='newuser').exists())
+
+
+class BlogTestCase(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username="testuser", password="pass1234")
+        self.post = Post.objects.create(title="Django Testing", content="Test content", author=self.user)
+        self.post.tags.add("django", "testing")
+
+    def test_post_has_tags(self):
+        self.assertIn("django", list(self.post.tags.names()))
+    
+    def test_search_by_title(self):
+        response = self.client.get("/search/?q=Django")
+        self.assertContains(response, "Django Testing")
+
+    def test_search_by_tag(self):
+        response = self.client.get("/search/?q=django")
+        self.assertContains(response, "Django Testing")
