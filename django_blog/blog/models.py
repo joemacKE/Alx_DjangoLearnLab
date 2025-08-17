@@ -12,7 +12,7 @@ class Post(models.Model):
     content = models.TextField()
     published_date = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    tag = models.ManyToManyField(Tag, on_delete = models.CASCADE)
+    tagging = models.ManyToManyField(Tag, on_delete = models.CASCADE)
 
     def __str__(self):
         return f"{self.title} by {self.author} published {self.published_date}"
