@@ -11,6 +11,7 @@ from django.views.generic import (
     UpdateView,
     DeleteView)
 from django.contrib.auth.models import User
+from django.db.models import Q
 
 from .forms import UserRegisterForm, ProfileUpdateForm, UserUpdateForm, PostForm, CommentForm
 
@@ -46,6 +47,19 @@ class PostListView(ListView):
     context_object_name = 'posts'
     ordering = ['-published_date']
     paginate_by = 10
+
+    def get_query(self):
+        queryset = super().get_queryset()
+        query = self.request.GET.get('q')
+
+        if query:
+            queryset = queryset.filter(
+                Q(title__icontains=query) |
+                Q(content__icontains=query) |
+                Q(tags__name__icontains=query)
+            ).distinct()
+        return queryset
+
 
 class PostDetailView(DetailView):
     model = Post
@@ -122,6 +136,4 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 
 
-
-#blog/views.py doesn't contain: ["CommentCreateView", "CommentDeleteView"]
 
