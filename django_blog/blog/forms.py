@@ -14,8 +14,13 @@ class PostForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ['title', 'content', 'tags']
+        widgets = {
+            'title':forms.TextInput(attrs={'class': 'form-control'}),
+            'content':forms.Textarea(attrs={'class':'form-control'}),
+            'tags':forms.TextInput(attrs={'class':'form-control', 'placeholder':'Add tags separated by comas'}),
+        }
        
-    
+#blog/forms.py doesn't contain: ["TagWidget()", "widgets"]
 class UserUpdateForm(forms.ModelForm):
     email = forms.EmailField()
     class Meta:
