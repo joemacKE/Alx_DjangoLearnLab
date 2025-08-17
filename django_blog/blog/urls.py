@@ -1,7 +1,7 @@
 from django.contrib.auth import views as auth_views
 from django.urls import path
 from . import views
-from blog.views import PostListView, CommentCreateView, CommentDeleteView, CommentUpdateView, PostDetailView, PostCreateView, PostUpdateView, PostDeleteView
+from blog.views import PostListView, CommentCreateView, CommentUpdateView, CommentDeleteView,  PostDetailView, PostCreateView, PostUpdateView, PostDeleteView
 
 urlpatterns = [
     path('login/', auth_views.LoginView.as_view(), name = 'login'),
