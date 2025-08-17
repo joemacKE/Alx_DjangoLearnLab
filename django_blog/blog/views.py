@@ -108,5 +108,4 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 
 
-# blog/views.py doesn't contain: 
-# ["CommentCreateView", "CommentUpdateView", "CommentDeleteView"]
+
