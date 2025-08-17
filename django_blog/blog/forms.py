@@ -13,7 +13,8 @@ class UserRegisterForm(UserCreationForm):
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ['title', 'content']
+        fields = ['title', 'content', 'tags']
+       
     
 class UserUpdateForm(forms.ModelForm):
     email = forms.EmailField()
@@ -33,9 +34,6 @@ class ProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ['bio', 'profile_picture']
-    
-
-
 
 class CommentForm(forms.ModelForm):
     class Meta:
@@ -49,3 +47,5 @@ class CommentForm(forms.ModelForm):
         if len(content) < 5:
             raise forms.ValidationError("Content must be at least 5 characters long")
         return content
+    
+
