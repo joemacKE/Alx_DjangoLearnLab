@@ -53,13 +53,13 @@ class PostListView(ListView):
         query = self.request.GET.get('q')
 
         if query:
-            queryset = queryset.filter(
+            queryset = Post.objects.filter(
                 Q(title__icontains=query) |
                 Q(content__icontains=query) |
                 Q(tags__name__icontains=query)
             ).distinct()
         return queryset
-
+#blog/views.py doesn't contain: ["Post.objects.filter"]
 
 class PostDetailView(DetailView):
     model = Post
