@@ -13,6 +13,7 @@ from accounts.models import CustomUser
 class FollowUserAPIView(APIView):
     permission_classes = [IsAuthenticated]
     def post(self, request, user_id):
+        users = CustomUser.objects.all()
         user_to_follow = get_object_or_404(CustomUser, id =user_id)
 
         if request.user == user_to_follow:
@@ -21,7 +22,7 @@ class FollowUserAPIView(APIView):
         return Response({'message': f"You are now following {user_to_follow.username}"}, status=status.HTTP_200_OK)
 
 
-class UnfollowAPIView(APIView):
+class UnfollowAUserPIView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request, user_id):
@@ -33,7 +34,6 @@ class UnfollowAPIView(APIView):
         request.user.following.remove(user_to_unfollow)
         return Response({'message': f"You have unfollowed {user_to_unfollow.username}"}, status=status.HTTP_200_OK)
 
-
 class FollowersListAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -43,7 +43,6 @@ class FollowersListAPIView(APIView):
         followers = user.followers.all().values("id", "username", "email")
         return Response(followers, status=status.HTTP_200_OK)
 
-
 class FollowingListAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -52,8 +51,6 @@ class FollowingListAPIView(APIView):
         user = get_object_or_404(CustomUser, id=user_id)
         following = user.following.all().values("id", "username", "email")
         return Response(following, status=status.HTTP_200_OK)
-
-
 
 class RegisterAPIView(APIView):
     myuser = get_user_model()
@@ -80,4 +77,4 @@ class LogOutAPIView(APIView):
             return Response({'error':'Invalid token'})
 
 # Create your views here. 
-# accounts/views.py doesn't contain: ["generics.GenericAPIView", "permissions.IsAuthenticated", 
+# accounts/views.py doesn't contain: ["CustomUser.objects.all()"]
