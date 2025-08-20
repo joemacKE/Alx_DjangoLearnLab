@@ -20,11 +20,10 @@ class PostListAPIView(APIView):
         #serializes the post
         serialize = PostSerializer(posts, many=True)
         return Response(PostSerializer.data, status=status.HTTP_200_OK)
-    
-        
 
 
-class CommentListAPIView(APIView):
+
+class PostDetailAPIView(APIView):
     authentication_classes = [IsAuthenticated]
     permission_classes = [SessionAuthentication, BasicAuthentication]
 
@@ -45,11 +44,9 @@ class CommentListAPIView(APIView):
             serializer.save()
             return Response({'message':"Post saved succesfully"}, status = status.HTTP_201_CREATED)
         return Response(serializer.errors)
-
-
-
-class PostDetailAPIView(APIView):
+    
+class CommentListAPIView(APIView):
     ...
-
+   
 
 # Create your views here.
