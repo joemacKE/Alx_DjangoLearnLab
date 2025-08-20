@@ -2,6 +2,7 @@ from .models import CustomUser
 from django.contrib.auth import get_user_model
 from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
+from rest_framework.authtoken.models import Token
 
 CustomUser = get_user_model
 class RegisterSerializer(serializers.ModelSerializer):
@@ -13,7 +14,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
     def create(self, validated_data):
-        user = CustomUser.objects.create_user(
+        user = Token.objects.create_user(
             username = validated_data['username'],
             email = validated_data['email'],
             password = validated_data['password'],
@@ -31,3 +32,6 @@ class RegisterSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
+#accounts/serializers.py doesn't contain: 
+# ["from rest_framework.authtoken.models import Token", 
+# "serializers.CharField()", "Token.objects.create", "get_user_model().objects.create_user"]
