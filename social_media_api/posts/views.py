@@ -1,5 +1,5 @@
-from posts.models import Post, Comment
-from posts.serializers import PostSerializer, CommentSerializer
+from posts.models import Post, Comment, Like
+from posts.serializers import PostSerializer, CommentSerializer, LikeSerializer
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication, TokenAuthentication
 from rest_framework import viewsets, status
@@ -47,6 +47,19 @@ class FeedView(generics.GenericAPIView):
 
         serializer = self.get_serializer(posts, many=True)
         return Response(serializer.data)
+
+class LikePostView(generics.GenericAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    serializer_class = LikeSerializer
+
+    def get(self, request, post_id):
+        try:
+            post = get_object_or_404(Post, id=post_id)
+        except Post.DoesNotExist:
+            return Response({'error': 'The post cannot be found'}, status=status.HTTP_404_NOT_FOUND)
+        if Like.objects.filter(user=request.user, post=post).exists():
+            return Response({'error': 'You have already liked this post'}, status=status.HTTP_400_BAD_REQUEST)
+        like = Like.objects.create(user=request.user, post=post)
 
 
 
