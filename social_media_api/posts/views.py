@@ -6,12 +6,13 @@ from rest_framework.response import Response
 from rest_framework import status, viewsets
 
 
-class PostListViewSet(viewsets):
+class PostListViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_calsses = PostSerializer
     authentication_classes = [SessionAuthentication, BasicAuthentication]
     permission_classes = [IsAuthenticatedOrReadOnly]
-    
 
 
 
+
+#posts/views.py doesn't contain: ["viewsets.ModelViewSet", 
