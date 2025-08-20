@@ -7,7 +7,9 @@ from rest_framework.authtoken.models import Token
 CustomUser = get_user_model
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only =True, required=True, validators=[validate_password])
-    profile_picture = serializers.ImageField(required = False)
+    followers_count = serializers.IntegerField(source='followers.count', read_only=True)
+    following_count = serializers.IntegerField(source='following.count', read_only=True)
+
 
     class Meta:
         model = CustomUser
