@@ -12,7 +12,14 @@ class PostListViewSet(viewsets.ModelViewSet):
     authentication_classes = [SessionAuthentication, BasicAuthentication]
     permission_classes = [IsAuthenticatedOrReadOnly]
 
+class CommentListViewSet(viewsets.ModelViewSet):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
 
 
 
 #posts/views.py doesn't contain: ["viewsets.ModelViewSet", 
+#posts/views.py doesn't contain: ["Comment.objects.all()"]
