@@ -1,4 +1,5 @@
 from posts.models import Post, Comment, Like
+from notifications.models import Notification
 from posts.serializers import PostSerializer, CommentSerializer, LikeSerializer
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication, TokenAuthentication
@@ -52,16 +53,27 @@ class LikePostView(generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = LikeSerializer
 
-    def get(self, request, post_id):
+    def get(self, request, pk):
         try:
-            post = get_object_or_404(Post, id=post_id)
+            post = generics.get_object_or_404(Post, pk=pk)
         except Post.DoesNotExist:
             return Response({'error': 'The post cannot be found'}, status=status.HTTP_404_NOT_FOUND)
         if Like.objects.filter(user=request.user, post=post).exists():
             return Response({'error': 'You have already liked this post'}, status=status.HTTP_400_BAD_REQUEST)
-        like = Like.objects.create(user=request.user, post=post)
+        like = Like.objects.get_or_create(user=request.user, post=post)
+
+        #this section creates a notification for post author
+        if post.author != request.user:
+            Notification.objects.create(
+                recipient = post.author,
+                actor = request.user,
+                verb = 'liked your post',
+                target = post
+            )
+        return Response({'message':'Post liked succesfully'}, status=status.HTTP_201_CREATED)
+    
 
 
-
-#posts/views.py doesn't contain: ["viewsets.ModelViewSet" posts/views.py 
-# doesn't contain: ["Post.objects.filter(author__in=following_users).order_by"]
+#posts/views.py doesn't contain: 
+# ["generics.get_object_or_404(Post, pk=pk)", 
+# "Like.objects.get_or_create(user=request.user, post=post)", "Notification.objects.create"]
