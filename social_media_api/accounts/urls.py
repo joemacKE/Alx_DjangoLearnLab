@@ -12,5 +12,9 @@ urlpatterns = [
     path('<int:user_id>/unfollow/', UnfollowAUserPIView.as_view(), name='unfollow-user'),
     path('<int:user_id>/followers/', FollowersListAPIView.as_view(), name='followers-list'),
     path('<int:user_id>/following/', FollowingListAPIView.as_view(), name='following-list'),
+    path('follow/<int:user_id/', FollowUserAPIView.as_view(), name='follow-user'),
+    path('unfollow/<int:user_id>/', UnfollowAUserPIView.as_view(), name='unfollow-user')
     
 ]
+
+#accounts/urls.py doesn't contain: ["unfollow/<int:user_id>/", "follow/<int:user_id>"]
