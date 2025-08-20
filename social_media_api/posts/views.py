@@ -8,9 +8,9 @@ from rest_framework import status, viewsets
 
 class PostListViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
-    serializer_calss = PostSerializer
+    serializer_class = PostSerializer
     authentication_classes = [SessionAuthentication, BasicAuthentication, TokenAuthentication]
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = []
 
 class CommentListViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
