@@ -41,14 +41,14 @@ class FeedView(generics.GenericAPIView):
     serializer_class = PostSerializer
 
     def get(self, request):
-        following_user = request.user.following.all()
+        following_users = request.user.following.all()
 
-        posts = Post.objects.filter(author__in=following_user).order_by('-created_at')
+        posts = Post.objects.filter(author__in=following_users).order_by('-created_at')
 
         serializer = self.get_serializer(posts, many=True)
         return Response(serializer.data)
 
 
 
-#posts/views.py doesn't contain: ["viewsets.ModelViewSet", 
-#posts/views.py doesn't contain: ["Comment.objects.all()"
+#posts/views.py doesn't contain: ["viewsets.ModelViewSet" posts/views.py 
+# doesn't contain: ["Post.objects.filter(author__in=following_users).order_by"]
