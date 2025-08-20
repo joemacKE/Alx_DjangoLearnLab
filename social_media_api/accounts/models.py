@@ -34,7 +34,7 @@ class CustomUserManager(BaseUserManager):
 class CustomUser(AbstractUser):
     bio = models.TextField()
     profile_picture = models.ImageField(upload_to='profile/', blank=True)
-    follower = models.ManyToManyField(User, on_delete=models.CASCADE, symmetrical=False)
+    followers = models.ManyToManyField(User, on_delete=models.CASCADE, symmetrical=False)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
