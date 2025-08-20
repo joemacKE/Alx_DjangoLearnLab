@@ -5,16 +5,21 @@ from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 
 CustomUser = get_user_model()
+
+class UserSerializer(serializers.ModelSerializer):
+    followers_count = serializers.IntegerField(source='followers.count', read_only=True)
+    following_count = serializers.IntegerField(source='following.count', read_only=True)
+    model = CustomUser
+    fields = "__all__"
+
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only =True, required=True, validators=[validate_password])
     # profile_picture = serializers.ImageField(upload_to='profile/', blank=True)
-    followers_count = serializers.IntegerField(source='followers.count', read_only=True)
-    following_count = serializers.IntegerField(source='following.count', read_only=True)
-
-
+    
     class Meta:
         model = CustomUser
         fields = "__all__"
+
 
     def create(self, validated_data):
         user = CustomUser.objects.create_user(
