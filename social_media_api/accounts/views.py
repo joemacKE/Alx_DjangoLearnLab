@@ -1,56 +1,72 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status, generics
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.contrib.auth import get_user_model
-from .serializers import RegisterSerializer
+from .serializers import RegisterSerializer, UserSerializer 
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.shortcuts import get_object_or_404
 from accounts.models import CustomUser
 
 
-class FollowUserAPIView(APIView):
+class FollowUserView(generics.GenericAPIView):
     permission_classes = [IsAuthenticated]
+    queryset = CustomUser.objects.all()
+    serializer_class = UserSerializer   # only needed if we want to return user info
+
     def post(self, request, user_id):
-        users = CustomUser.objects.all()
-        user_to_follow = get_object_or_404(CustomUser, id =user_id)
+        """Follow another user"""
+        user_to_follow = get_object_or_404(CustomUser, id=user_id)
 
         if request.user == user_to_follow:
-            return Response({'error':"You cannot follow yourself"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error": "You cannot follow yourself"}, status=status.HTTP_400_BAD_REQUEST)
+
         request.user.following.add(user_to_follow)
-        return Response({'message': f"You are now following {user_to_follow.username}"}, status=status.HTTP_200_OK)
+        return Response({"message": f"You are now following {user_to_follow.username}"}, status=status.HTTP_200_OK)
 
 
-class UnfollowAUserPIView(APIView):
+class UnfollowUserView(generics.GenericAPIView):
     permission_classes = [IsAuthenticated]
+    queryset = CustomUser.objects.all()
+    serializer_class = UserSerializer
 
     def post(self, request, user_id):
-        #current user unfollows another user
+        """Unfollow another user"""
         user_to_unfollow = get_object_or_404(CustomUser, id=user_id)
 
         if request.user == user_to_unfollow:
-            return Response({'error':'You cannot unfollow yourself'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error": "You cannot unfollow yourself"}, status=status.HTTP_400_BAD_REQUEST)
+
         request.user.following.remove(user_to_unfollow)
-        return Response({'message': f"You have unfollowed {user_to_unfollow.username}"}, status=status.HTTP_200_OK)
+        return Response({"message": f"You have unfollowed {user_to_unfollow.username}"}, status=status.HTTP_200_OK)
 
-class FollowersListAPIView(APIView):
+
+class FollowersListView(generics.GenericAPIView):
     permission_classes = [IsAuthenticated]
+    queryset = CustomUser.objects.all()
+    serializer_class = UserSerializer
 
     def get(self, request, user_id):
-        """Get list of followers for a user"""
+        """List all followers of a user"""
         user = get_object_or_404(CustomUser, id=user_id)
-        followers = user.followers.all().values("id", "username", "email")
-        return Response(followers, status=status.HTTP_200_OK)
+        followers = user.followers.all()
+        serializer = self.get_serializer(followers, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
-class FollowingListAPIView(APIView):
+
+class FollowingListView(generics.GenericAPIView):
     permission_classes = [IsAuthenticated]
+    queryset = CustomUser.objects.all()
+    serializer_class = UserSerializer
 
     def get(self, request, user_id):
-        """Get list of users that this user follows"""
+        """List all users this user is following"""
         user = get_object_or_404(CustomUser, id=user_id)
-        following = user.following.all().values("id", "username", "email")
-        return Response(following, status=status.HTTP_200_OK)
+        following = user.following.all()
+        serializer = self.get_serializer(following, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
 
 class RegisterAPIView(APIView):
     myuser = get_user_model()
@@ -76,5 +92,46 @@ class LogOutAPIView(APIView):
         except Exception as e:
             return Response({'error':'Invalid token'})
 
+class FollowUserAPIView(APIView):
+#     permission_classes = [IsAuthenticated]
+#     def post(self, request, user_id):
+#         users = CustomUser.objects.all()
+#         user_to_follow = get_object_or_404(CustomUser, id =user_id)
+
+#         if request.user == user_to_follow:
+#             return Response({'error':"You cannot follow yourself"}, status=status.HTTP_400_BAD_REQUEST)
+#         request.user.following.add(user_to_follow)
+#         return Response({'message': f"You are now following {user_to_follow.username}"}, status=status.HTTP_200_OK)
+
+
+# class UnfollowAUserPIView(APIView):
+#     permission_classes = [IsAuthenticated]
+
+#     def post(self, request, user_id):
+#         #current user unfollows another user
+#         user_to_unfollow = get_object_or_404(CustomUser, id=user_id)
+
+#         if request.user == user_to_unfollow:
+#             return Response({'error':'You cannot unfollow yourself'}, status=status.HTTP_400_BAD_REQUEST)
+#         request.user.following.remove(user_to_unfollow)
+#         return Response({'message': f"You have unfollowed {user_to_unfollow.username}"}, status=status.HTTP_200_OK)
+
+# class FollowersListAPIView(APIView):
+#     permission_classes = [IsAuthenticated]
+
+#     def get(self, request, user_id):
+#         """Get list of followers for a user"""
+#         user = get_object_or_404(CustomUser, id=user_id)
+#         followers = user.followers.all().values("id", "username", "email")
+#         return Response(followers, status=status.HTTP_200_OK)
+
+# class FollowingListAPIView(APIView):
+#     permission_classes = [IsAuthenticated]
+
+#     def get(self, request, user_id):
+#         """Get list of users that this user follows"""
+#         user = get_object_or_404(CustomUser, id=user_id)
+#         following = user.following.all().values("id", "username", "email")
+#         return Response(following, status=status.HTTP_200_OK)
 # Create your views here. 
-# accounts/views.py doesn't contain: ["CustomUser.objects.all()"]
+#views.py doesn't contain: ["generics.GenericAPIView", 
