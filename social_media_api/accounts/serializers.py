@@ -1,10 +1,10 @@
-from .models import CustomUser
+from accounts.models import CustomUser
 from django.contrib.auth import get_user_model
 from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 
-CustomUser = get_user_model
+CustomUser = get_user_model()
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only =True, required=True, validators=[validate_password])
     followers_count = serializers.IntegerField(source='followers.count', read_only=True)
@@ -16,7 +16,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
     def create(self, validated_data):
-        user = Token.objects.create_user(
+        user = CustomUser.objects.create_user(
             username = validated_data['username'],
             email = validated_data['email'],
             password = validated_data['password'],
