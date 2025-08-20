@@ -10,6 +10,31 @@ from django.shortcuts import get_object_or_404
 from accounts.models import CustomUser
 
 
+class RegisterAPIView(APIView):
+    myuser = get_user_model()
+    permission_classes = [AllowAny]
+    def post(self, request):
+        #this will register a user
+        serializer = RegisterSerializer(data = request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'message':"User registered succesfully"}, status = status.HTTP_201_CREATED)
+        return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
+
+class LogOutAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        #logging out a user
+        try:
+            refresh_token = request.data.get('refresh_toke')
+            token = RefreshToken(refresh_token)
+            token.blacklist()
+            return Response({'message':"Logged out succesfully"})
+        except Exception as e:
+            return Response({'error':'Invalid token'})
+
+
 class FollowUserView(generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated]
     queryset = CustomUser.objects.all()
@@ -66,31 +91,5 @@ class FollowingListView(generics.GenericAPIView):
         following = user.following.all()
         serializer = self.get_serializer(following, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
-
-
-class RegisterAPIView(APIView):
-    myuser = get_user_model()
-    permission_classes = [AllowAny]
-    def post(self, request):
-        #this will register a user
-        serializer = RegisterSerializer(data = request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response({'message':"User registered succesfully"}, status = status.HTTP_201_CREATED)
-        return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
-
-class LogOutAPIView(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def post(self, request):
-        #logging out a user
-        try:
-            refresh_token = request.data.get('refresh_toke')
-            token = RefreshToken(refresh_token)
-            token.blacklist()
-            return Response({'message':"Logged out succesfully"})
-        except Exception as e:
-            return Response({'error':'Invalid token'})
-
 
 #posts/views.py doesn't contain: ["Post.objects.filter(author__in=following_users).order_by", "following.all()", 

@@ -1,6 +1,11 @@
 from django.urls import path
 from .views import RegisterAPIView, LogOutAPIView
-from accounts.views import FollowersListAPIView, UnfollowAUserPIView, FollowingListAPIView, FollowUserAPIView
+from .views import (
+    FollowersListView,
+    UnfollowUserView,
+    FollowingListView,
+    FollowUserView,
+    )
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 urlpatterns = [
@@ -8,12 +13,12 @@ urlpatterns = [
     path('login/', TokenObtainPairView.as_view(), name='login'),
     path('refresh/', TokenRefreshView.as_view(), name='refresh'),
     path('accounts/logout/', LogOutAPIView.as_view(), name='logout'),
-    path('<int:user_id>/follow/', FollowUserAPIView.as_view(), name='follow-user'),
-    path('<int:user_id>/unfollow/', UnfollowAUserPIView.as_view(), name='unfollow-user'),
-    path('<int:user_id>/followers/', FollowersListAPIView.as_view(), name='followers-list'),
-    path('<int:user_id>/following/', FollowingListAPIView.as_view(), name='following-list'),
-    path('follow/<int:user_id/', FollowUserAPIView.as_view(), name='follow-user'),
-    path('unfollow/<int:user_id>/', UnfollowAUserPIView.as_view(), name='unfollow-user')
+    path('<int:user_id>/follow/', FollowUserView.as_view(), name='follow-user'),
+    path('<int:user_id>/unfollow/', UnfollowUserView.as_view(), name='unfollow-user'),
+    path('<int:user_id>/followers/', FollowersListView.as_view(), name='followers-list'),
+    path('<int:user_id>/following/', FollowingListView.as_view(), name='following-list'),
+    path('follow/<int:user_id/', FollowUserView.as_view(), name='follow-user'),
+    path('unfollow/<int:user_id>/', UnfollowUserView.as_view(), name='unfollow-user')
     
 ]
 
