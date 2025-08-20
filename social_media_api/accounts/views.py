@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status, generics
+from rest_framework import status, generics, permissions
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.contrib.auth import get_user_model
 from .serializers import RegisterSerializer, UserSerializer 
@@ -11,7 +11,7 @@ from accounts.models import CustomUser
 
 
 class FollowUserView(generics.GenericAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
     queryset = CustomUser.objects.all()
     serializer_class = UserSerializer   # only needed if we want to return user info
 
@@ -27,7 +27,7 @@ class FollowUserView(generics.GenericAPIView):
 
 
 class UnfollowUserView(generics.GenericAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
     queryset = CustomUser.objects.all()
     serializer_class = UserSerializer
 
@@ -43,7 +43,7 @@ class UnfollowUserView(generics.GenericAPIView):
 
 
 class FollowersListView(generics.GenericAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
     queryset = CustomUser.objects.all()
     serializer_class = UserSerializer
 
@@ -56,7 +56,7 @@ class FollowersListView(generics.GenericAPIView):
 
 
 class FollowingListView(generics.GenericAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
     queryset = CustomUser.objects.all()
     serializer_class = UserSerializer
 
@@ -92,7 +92,7 @@ class LogOutAPIView(APIView):
         except Exception as e:
             return Response({'error':'Invalid token'})
 
-class FollowUserAPIView(APIView):
+#class FollowUserAPIView(APIView):
 #     permission_classes = [IsAuthenticated]
 #     def post(self, request, user_id):
 #         users = CustomUser.objects.all()
