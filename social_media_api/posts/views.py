@@ -5,6 +5,7 @@ from rest_framework.authentication import SessionAuthentication, BasicAuthentica
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
+from rest_framework import generics, permissions
 
 
 class PostListViewSet(viewsets.ModelViewSet):
@@ -35,8 +36,17 @@ class CommentListViewSet(viewsets.ViewSet):
             return Response(serializer.data, status=201)
         return Response(serializer.errors, status=400)
 
+class FeedView(generics.GenericAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    serializer_class = PostSerializer
 
+    def get(self, request):
+        following_user = request.user.following.all()
 
+        posts = Post.objects.filter(author__in=following_user).order_by('-created_at')
+
+        serializer = self.get_serializer(posts, many=True)
+        return Response(serializer.data)
 
 
 
