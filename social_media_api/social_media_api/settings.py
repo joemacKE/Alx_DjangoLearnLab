@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     #local
     'accounts',
     'posts',
+    'notifications',
 
     #third party applications
     'rest_framework',

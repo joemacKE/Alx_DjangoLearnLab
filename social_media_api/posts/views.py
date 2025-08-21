@@ -24,7 +24,11 @@ class CommentListViewSet(viewsets.ViewSet):
 
     def list(self, request, post_pk=None):
         """Return all comments for a given post"""
-        post = get_object_or_404(Post, pk=post_pk)
+        posts = Post.objects.all()
+        try:
+            post = get_object_or_404(Post, pk=post_pk)
+        except Post.DoesNotExist:
+            return Response({"error":"The comment cannot be found"}, status = status.HTTP_404_NOT_FOUND)
         serializer = PostSerializer(post)  # returns post + nested comments
         return Response(serializer.data)
 
@@ -74,6 +78,4 @@ class LikePostView(generics.GenericAPIView):
     
 
 
-#posts/views.py doesn't contain: 
-# ["generics.get_object_or_404(Post, pk=pk)", 
-# "Like.objects.get_or_create(user=request.user, post=post)", "Notification.objects.create"]
+#pposts/views.py doesn't contain: ["Comment.objects.all()"]
