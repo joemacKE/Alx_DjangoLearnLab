@@ -81,10 +81,10 @@ class UnlikePostView(generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = LikeSerializer
 
-    def post(self, request, post_id):
+    def post(self, request, pk):
         try:
             #first we get the post
-            post = generics.get_object_or_404(Post, pk=post_id)
+            post = generics.get_object_or_404(Post, pk=pk)
         except Post.DoesNotExist:
             #IF the post does not exists we handle the error
             return Response({'error': 'This post does not exist'}, status = status.HTTP_404_NOT_FOUND)
