@@ -77,5 +77,29 @@ class LikePostView(generics.GenericAPIView):
         return Response({'message':'Post liked succesfully'}, status=status.HTTP_201_CREATED)
     
 
+class UnlikePostView(generics.GenericAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    serializer_class = LikeSerializer
+
+    def post(self, request, post_id):
+        try:
+            #first we get the post
+            post = generics.get_object_or_404(Post, pk=post_id)
+        except Post.DoesNotExist:
+            #IF the post does not exists we handle the error
+            return Response({'error': 'This post does not exist'}, status = status.HTTP_404_NOT_FOUND)
+        #if the post exists we filter to find the liked post
+        like = Like.objects.get_object.filter(user=request.user, post=post).first()
+        #then check if the user has already liked the post
+        if not like:
+            return Response({'Error': "You have not liked this post yet!"}, status=status.HTTP_400_BAD_REQUEST)
+        #if like exists we delete/remove like
+        like.delete()
+        return Response({'message':'Like removed succesfully!'}, status=status.HTTP_200_OK)
+
+
+
+
+        
 
 #pposts/views.py doesn't contain: ["Comment.objects.all()"]
