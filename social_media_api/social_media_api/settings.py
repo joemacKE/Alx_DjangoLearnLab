@@ -1,9 +1,16 @@
 
+import environ
 import os
 from pathlib import Path
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+env = environ.Env(
+    DEBUG = ('bool', False) #sets default debug to false
+)
+#read the environ file
+environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
+
 
 #static files (CSS, JS, IMAGES)
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
@@ -18,10 +25,10 @@ STATICFILES_DIRS = [
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-
+SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = env.bool("DEBUG", default=False)
 SECURE_BROWSER_XSS_FILTER = True
 X_FRAME_OPTIONS = 'DENY'
 SECURE_CONTENT_TYPE_NOSNIFF = True
@@ -105,11 +112,11 @@ import os
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('DB_NAME', 'social_media_database'),
-        'USER': os.getenv('DB_USER', 'social_media_user'),
-        'PASSWORD': os.getenv('DB_PASSWORD', 'JosephMuga@2020'),
-        'HOST': os.getenv('DB_HOST', 'localhost'),
-        'PORT': os.getenv('DB_PORT', '5432'),
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
+        'HOST': os.getenv('DB_HOST'),
+        'PORT': os.getenv('DB_PORT'),
     }
 }
 
