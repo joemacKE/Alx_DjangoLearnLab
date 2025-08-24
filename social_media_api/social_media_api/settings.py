@@ -28,7 +28,7 @@ STATICFILES_DIRS = [
 SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env.bool("DEBUG", default=False)
+DEBUG = False
 SECURE_BROWSER_XSS_FILTER = True
 X_FRAME_OPTIONS = 'DENY'
 SECURE_CONTENT_TYPE_NOSNIFF = True
@@ -169,3 +169,4 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 
 
+#README GENERATOR
